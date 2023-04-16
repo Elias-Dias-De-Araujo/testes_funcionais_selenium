@@ -6,6 +6,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -15,13 +17,24 @@ public class TestGoogleTitle {
     /**
      * Rigorous Test :-)
      */
-    @Test
-    public void TitleTest0() {
-        WebDriver driver = new FirefoxDriver();
+
+    private WebDriver driver;
+
+    @Before
+    public void begin() {
+        driver = new FirefoxDriver();
         driver.manage().window().setSize(new Dimension(1000, 765));
         driver.get("https://www.google.com/");
-        assertEquals("Google", driver.getTitle());
+    }
+
+    @After
+    public void end() {
         driver.quit();
+    }
+
+    @Test
+    public void TitleTest0() {
+        assertEquals("Google", driver.getTitle());
     }
 
 }

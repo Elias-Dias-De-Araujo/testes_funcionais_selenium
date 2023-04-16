@@ -10,16 +10,28 @@ import org.openqa.selenium.support.ui.Select;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestBasicElements {
 
-	@Test
-	public void testTextField() {
-		WebDriver driver = new FirefoxDriver();
+	private WebDriver driver;
+
+	@Before
+	public void begin() {
+		driver = new FirefoxDriver();
 		driver.manage().window().setSize(new Dimension(1000, 765));
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
+	}
 
+	@After
+	public void end() {
+		driver.quit();
+	}
+
+	@Test
+	public void testTextField() {
 		// Nome
 		driver.findElement(By.id("elementosForm:nome")).sendKeys("Writing");
 		assertEquals(driver.findElement(By.id("elementosForm:nome")).getAttribute("value"), "Writing");
@@ -27,29 +39,17 @@ public class TestBasicElements {
 		// Sobrenome
 		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Writing");
 		assertEquals(driver.findElement(By.id("elementosForm:sobrenome")).getAttribute("value"), "Writing");
-
-		driver.quit();
 	}
 
 	@Test
 	public void testTextArea() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
-
 		// Sugestoes
 		driver.findElement(By.id("elementosForm:sugestoes")).sendKeys("Writing");
 		assertEquals(driver.findElement(By.id("elementosForm:sugestoes")).getAttribute("value"), "Writing");
-
-		driver.quit();
 	}
 
 	@Test
 	public void testRadioButtom() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
-
 		// Masculino
 		driver.findElement(By.id("elementosForm:sexo:0")).click();
 		assertTrue(driver.findElement(By.id("elementosForm:sexo:0")).isSelected());
@@ -57,16 +57,10 @@ public class TestBasicElements {
 		// Feminino
 		driver.findElement(By.id("elementosForm:sexo:1")).click();
 		assertTrue(driver.findElement(By.id("elementosForm:sexo:1")).isSelected());
-
-		driver.quit();
 	}
 
 	@Test
 	public void testCheckBox() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
-
 		// Carne
 		driver.findElement(By.id("elementosForm:comidaFavorita:0")).click();
 		assertTrue(driver.findElement(By.id("elementosForm:comidaFavorita:0")).isSelected());
@@ -82,15 +76,10 @@ public class TestBasicElements {
 		// Vegetariano
 		driver.findElement(By.id("elementosForm:comidaFavorita:3")).click();
 		assertTrue(driver.findElement(By.id("elementosForm:comidaFavorita:3")).isSelected());
-
-		driver.quit();
 	}
 
 	@Test
 	public void testSelect() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
 		String[] values = {
 				"1grauincomp", "1graucomp", "2grauincomp", "2graucomp", "superior", "especializacao",
 				"mestrado", "doutorado" };
@@ -105,15 +94,10 @@ public class TestBasicElements {
 			select.selectByValue(select.getOptions().get(i).getAttribute("value"));
 			assertEquals(values[i], select.getFirstSelectedOption().getAttribute("value"));
 		}
-
-		driver.quit();
 	}
 
 	@Test
 	public void testSelectMultiple() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
 		String[] values = { "natacao", "futebol", "Corrida", "Karate", "nada" };
 		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
 		Select select = new Select(element);
@@ -135,31 +119,20 @@ public class TestBasicElements {
 			select.deselectByValue(select.getOptions().get(i).getAttribute("value"));
 			assertEquals(i, select.getAllSelectedOptions().size());
 		}
-
-		driver.quit();
 	}
 
 	@Test
 	public void testButtom() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
 		WebElement buttom = driver.findElement(By.id("buttonSimple"));
 		buttom.click();
 
 		assertEquals("Obrigado!", buttom.getAttribute("value"));
-		driver.quit();
 	}
 
 	@Test
 	public void testLink() {
-		WebDriver driver = new FirefoxDriver();
-		driver.manage().window().setSize(new Dimension(1000, 765));
-		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
-
 		WebElement link = driver.findElement(By.linkText("Voltar"));
 		link.click();
 		assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());
-		driver.quit();
 	}
 }

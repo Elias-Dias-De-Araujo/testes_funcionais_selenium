@@ -1,25 +1,36 @@
 package com.testes;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+import org.junit.After;
+import org.junit.Before;
 
 public class TestSignUp {
-	@Test
-	public void testSignUp() {
-		WebDriver driver = new FirefoxDriver();
+
+	private WebDriver driver;
+
+	@Before
+	public void begin() {
+		driver = new FirefoxDriver();
 		driver.manage().window().setSize(new Dimension(1000, 765));
 		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
+	}
 
+	@After
+	public void end() {
+		driver.quit();
+	}
+
+	@Test
+	public void testSignUp() {
 		// Nome
 		driver.findElement(By.id("elementosForm:nome")).sendKeys("Luna");
 
@@ -66,6 +77,5 @@ public class TestSignUp {
 				driver.findElement(By.id("descEsportes")).findElement(By.tagName("span")).getText());
 		assertEquals("Texto Digitado aqui",
 				driver.findElement(By.id("descSugestoes")).findElement(By.tagName("span")).getText());
-		driver.quit();
 	}
 }
