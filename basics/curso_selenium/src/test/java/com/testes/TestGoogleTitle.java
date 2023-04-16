@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * Unit test for simple App.
  */
-public class TestGoogle {
+public class TestGoogleTitle {
     /**
      * Rigorous Test :-)
      */

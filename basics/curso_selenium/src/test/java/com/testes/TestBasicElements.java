@@ -10,12 +10,9 @@ import org.openqa.selenium.support.ui.Select;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
-public class TestTrainingCamp {
+public class TestBasicElements {
 
 	@Test
 	public void testTextField() {
@@ -139,6 +136,30 @@ public class TestTrainingCamp {
 			assertEquals(i, select.getAllSelectedOptions().size());
 		}
 
+		driver.quit();
+	}
+
+	@Test
+	public void testButtom() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1000, 765));
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
+		WebElement buttom = driver.findElement(By.id("buttonSimple"));
+		buttom.click();
+
+		assertEquals("Obrigado!", buttom.getAttribute("value"));
+		driver.quit();
+	}
+
+	@Test
+	public void testLink() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1000, 765));
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
+
+		WebElement link = driver.findElement(By.linkText("Voltar"));
+		link.click();
+		assertEquals("Voltou!", driver.findElement(By.id("resultado")).getText());
 		driver.quit();
 	}
 }
