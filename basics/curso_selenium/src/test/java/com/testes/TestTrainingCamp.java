@@ -100,12 +100,43 @@ public class TestTrainingCamp {
 		WebElement element = driver.findElement(By.id("elementosForm:escolaridade"));
 		Select select = new Select(element);
 
+		// Testing size of available elements
 		assertEquals(8, select.getOptions().size());
 
 		// Testing values
 		for (int i = 0; i < select.getOptions().size(); i++) {
 			select.selectByValue(select.getOptions().get(i).getAttribute("value"));
 			assertEquals(values[i], select.getFirstSelectedOption().getAttribute("value"));
+		}
+
+		driver.quit();
+	}
+
+	@Test
+	public void testSelectMultiple() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1000, 765));
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
+		String[] values = { "natacao", "futebol", "Corrida", "Karate", "nada" };
+		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
+		Select select = new Select(element);
+
+		// Testing size of available elements
+		assertEquals(5, select.getOptions().size());
+
+		// Testing values
+		for (int i = 0; i < select.getOptions().size(); i++) {
+			select.selectByValue(select.getOptions().get(i).getAttribute("value"));
+			assertEquals(values[i], select.getAllSelectedOptions().get(i).getAttribute("value"));
+		}
+
+		// Testing amount of selected elements
+		assertEquals(5, select.getAllSelectedOptions().size());
+
+		// Testing amount of unselected elements
+		for (int i = 5; i < select.getOptions().size(); i++) {
+			select.deselectByValue(select.getOptions().get(i).getAttribute("value"));
+			assertEquals(i, select.getAllSelectedOptions().size());
 		}
 
 		driver.quit();
