@@ -81,4 +81,32 @@ public class TestBusinessRules {
 
 		driver.quit();
 	}
+
+	@Test
+	public void testSportsNotEm() {
+		WebDriver driver = new FirefoxDriver();
+		driver.manage().window().setSize(new Dimension(1000, 765));
+		driver.get("file:///" + System.getProperty("user.dir") + "/src/resources/componentes.html");
+
+		driver.findElement(By.id("elementosForm:nome")).sendKeys("Maria");
+		driver.findElement(By.id("elementosForm:sobrenome")).sendKeys("Rosa");
+		driver.findElement(By.id("elementosForm:sexo:0")).click();
+		driver.findElement(By.id("elementosForm:comidaFavorita:0")).click();
+
+		WebElement element = driver.findElement(By.id("elementosForm:esportes"));
+		Select select = new Select(element);
+
+		select.selectByValue("nada");
+
+		for (int i = 0; i < select.getOptions().size() - 1; i++) {
+			select.selectByValue(select.getOptions().get(i).getAttribute("value"));
+			driver.findElement(By.id("elementosForm:cadastrar")).click();
+			Alert alert = driver.switchTo().alert();
+			assertEquals("Voce faz esporte ou nao?", alert.getText());
+			alert.accept();
+			select.deselectByValue(select.getOptions().get(i).getAttribute("value"));
+		}
+
+		driver.quit();
+	}
 }
